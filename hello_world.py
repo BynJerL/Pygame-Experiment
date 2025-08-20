@@ -64,6 +64,7 @@ player.draw()
 
 heading1 = pg.font.SysFont("consolas", 30, bold=True, italic=True)
 normalText = pg.font.SysFont("arial", 20, bold=False, italic=False)
+subText = pg.font.SysFont("consolas", 12, bold=True)
 text1 = heading1.render("Hello, Pygame!", True, BASE_TEXT_COLOR)
 text2 = normalText.render("Hello, World! This is only a template.", True, BASE_TEXT_COLOR)
 root.blit(text1, (75, 30))
@@ -93,6 +94,10 @@ while isRunning:
     pg.draw.rect(root, BASE_TEXT_COLOR, arena, 3)
     player.draw()
 
-    pg.display.flip()
     clock.tick(FPS)
+    currentfps = round(clock.get_fps(), 2)
+
+    root.blit(subText.render(f"fps: {currentfps} ", True, BASE_TEXT_COLOR, BASE_BG_COLOR), (5, WINDOW_HEIGHT - 15))
+
+    pg.display.flip()
 pg.quit()
