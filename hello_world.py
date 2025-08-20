@@ -11,6 +11,7 @@ ICON_ADDRESS = "assets/icon/icon.png"
 BASE_BG_COLOR = (16, 16, 16)
 BASE_TEXT_COLOR = (240, 240, 240)
 
+# INITIALIZATION
 pg.init()
 
 root = pg.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -19,12 +20,17 @@ pg_icon = pg.image.load(ICON_ADDRESS)
 pg.display.set_icon(pg_icon)
 
 root.fill(BASE_BG_COLOR)
-pg.display.flip()
 
 clock = pg.time.Clock()
 
-isRunning = True
+# OBJECT DRAW
+pg.draw.rect(root, (240, 0, 0), pg.Rect(30, 30, 30, 30))
 
+# FLIP
+pg.display.flip()
+
+# LOOP
+isRunning = True
 while isRunning:
     for event in pg.event.get():
         if event.type == pg.QUIT:
