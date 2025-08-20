@@ -25,6 +25,7 @@ clock = pg.time.Clock()
 
 # OBJECT DRAW
 pg.draw.rect(root, (240, 0, 0), pg.Rect(30, 30, 30, 30))
+pg.draw.rect(root, BASE_TEXT_COLOR, pg.Rect(WINDOW_WIDTH // 2 - 75, 115, 150, 150), 3)
 
 # fonts = pg.font.get_fonts()
 # for f in fonts:
