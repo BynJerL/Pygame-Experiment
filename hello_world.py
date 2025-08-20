@@ -21,13 +21,13 @@ class Player:
         self.posX = max(0, self.posX - 1)
     
     def moveRight(self):
-        self.posX = min(150, self.posX + 1)
+        self.posX = min(150 - self.width, self.posX + 1)
     
     def moveTop(self):
         self.posY = max(0, self.posY - 1)
     
     def moveBottom(self):
-        self.posY = min(150, self.posY + 1)
+        self.posY = min(150 - self.height, self.posY + 1)
 
 # SETUPS
 WINDOW_CAPTION = "Hello Pygame"
@@ -78,9 +78,18 @@ while isRunning:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             isRunning = False
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_UP:
-                pass
-
+    
+    keys = pg.key.get_pressed()
+    if keys[pg.K_UP]:
+        player.moveTop()
+    if keys[pg.K_DOWN]:
+        player.moveBottom()
+    if keys[pg.K_LEFT]:
+        player.moveLeft()
+    if keys[pg.K_RIGHT]:
+        player.moveRight()
+    
+    player.draw()
+    pg.display.flip()
     clock.tick(FPS)
 pg.quit()
