@@ -26,6 +26,14 @@ clock = pg.time.Clock()
 # OBJECT DRAW
 pg.draw.rect(root, (240, 0, 0), pg.Rect(30, 30, 30, 30))
 
+# fonts = pg.font.get_fonts()
+# for f in fonts:
+#     print(f)
+
+font = pg.font.SysFont("consolas", 30)
+text = font.render("Hello, Pygame!", True, BASE_TEXT_COLOR)
+root.blit(text, (75, 30))
+
 # FLIP
 pg.display.flip()
 
