@@ -1,9 +1,14 @@
 import pygame as pg
 
+# SETUPS
+WINDOW_CAPTION = "Hello Pygame"
+WINDOW_WIDTH = 400
+WINDOW_HEIGHT = 300
+
 pg.init()
 
-root = pg.display.set_mode((400, 300))
-pg.display.set_caption("Hello Pygame")
+root = pg.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+pg.display.set_caption(WINDOW_CAPTION)
 
 isRunning = True
 
