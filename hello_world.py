@@ -1,5 +1,34 @@
 import pygame as pg
 
+class Player:
+    def __init__(self, width: int = 20, height:int = 20):
+        self.width = width
+        self.height = height
+        self.posX = 75 - width // 2
+        self.posY = 75 - height // 2
+    
+    def draw(self):
+        leftLimit = WINDOW_WIDTH // 2 - 75
+        rightLimit = WINDOW_WIDTH // 2 + 75
+        topLimit = 115
+        bottomLimit = 265
+        absX = min(rightLimit, max(leftLimit, self.posX + leftLimit))
+        absY = min(bottomLimit, max(topLimit, self.posY + topLimit))
+        sprite = pg.Rect(absX, absY, self.width, self.height)
+        pg.draw.rect(root, (240, 0, 0), sprite)
+    
+    def moveLeft(self):
+        self.posX = max(0, self.posX - 1)
+    
+    def moveRight(self):
+        self.posX = min(150, self.posX + 1)
+    
+    def moveTop(self):
+        self.posY = max(0, self.posY - 1)
+    
+    def moveBottom(self):
+        self.posY = min(150, self.posY + 1)
+
 # SETUPS
 WINDOW_CAPTION = "Hello Pygame"
 WINDOW_WIDTH = 400
@@ -24,9 +53,11 @@ root.fill(BASE_BG_COLOR)
 clock = pg.time.Clock()
 
 # OBJECT DRAW
+player = Player()
+
 pg.draw.rect(root, (240, 0, 0), pg.Rect(30, 30, 30, 30))
 pg.draw.rect(root, BASE_TEXT_COLOR, pg.Rect(WINDOW_WIDTH // 2 - 75, 115, 150, 150), 3)
-
+player.draw()
 # fonts = pg.font.get_fonts()
 # for f in fonts:
 #     print(f)
@@ -47,6 +78,9 @@ while isRunning:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             isRunning = False
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_UP:
+                pass
 
     clock.tick(FPS)
 pg.quit()
