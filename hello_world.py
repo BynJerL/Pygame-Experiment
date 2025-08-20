@@ -30,7 +30,7 @@ pg.draw.rect(root, (240, 0, 0), pg.Rect(30, 30, 30, 30))
 # for f in fonts:
 #     print(f)
 
-font = pg.font.SysFont("consolas", 30)
+font = pg.font.SysFont("consolas", 30, bold=True, italic=True)
 text = font.render("Hello, Pygame!", True, BASE_TEXT_COLOR)
 root.blit(text, (75, 30))
 
