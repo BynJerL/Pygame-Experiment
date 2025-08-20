@@ -54,9 +54,9 @@ clock = pg.time.Clock()
 
 # OBJECT DRAW
 player = Player()
-
+arena = pg.Rect(WINDOW_WIDTH // 2 - 75, 115, 150, 150)
 pg.draw.rect(root, (240, 0, 0), pg.Rect(30, 30, 30, 30))
-pg.draw.rect(root, BASE_TEXT_COLOR, pg.Rect(WINDOW_WIDTH // 2 - 75, 115, 150, 150), 3)
+pg.draw.rect(root, BASE_TEXT_COLOR, arena, 3)
 player.draw()
 # fonts = pg.font.get_fonts()
 # for f in fonts:
@@ -89,7 +89,10 @@ while isRunning:
     if keys[pg.K_RIGHT]:
         player.moveRight()
     
+    root.fill(BASE_BG_COLOR, arena)
+    pg.draw.rect(root, BASE_TEXT_COLOR, arena, 3)
     player.draw()
+
     pg.display.flip()
     clock.tick(FPS)
 pg.quit()
