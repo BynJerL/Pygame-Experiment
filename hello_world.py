@@ -89,6 +89,8 @@ while isRunning:
         player.moveLeft()
     if keys[pg.K_RIGHT]:
         player.moveRight()
+
+    root.blit(subText.render(f"player: (x={player.posX},y={player.posY})      ", True, BASE_TEXT_COLOR, BASE_BG_COLOR), (5, WINDOW_HEIGHT - 28))
     
     root.fill(BASE_BG_COLOR, arena)
     pg.draw.rect(root, BASE_TEXT_COLOR, arena, 3)
