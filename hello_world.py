@@ -30,9 +30,12 @@ pg.draw.rect(root, (240, 0, 0), pg.Rect(30, 30, 30, 30))
 # for f in fonts:
 #     print(f)
 
-font = pg.font.SysFont("consolas", 30, bold=True, italic=True)
-text = font.render("Hello, Pygame!", True, BASE_TEXT_COLOR)
-root.blit(text, (75, 30))
+heading1 = pg.font.SysFont("consolas", 30, bold=True, italic=True)
+normalText = pg.font.SysFont("arial", 20, bold=False, italic=False)
+text1 = heading1.render("Hello, Pygame!", True, BASE_TEXT_COLOR)
+text2 = normalText.render("Hello, World! This is only a template.", True, BASE_TEXT_COLOR)
+root.blit(text1, (75, 30))
+root.blit(text2, (30, 65))
 
 # FLIP
 pg.display.flip()
