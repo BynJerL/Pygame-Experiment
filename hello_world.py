@@ -5,6 +5,7 @@ WINDOW_CAPTION = "Hello Pygame"
 WINDOW_WIDTH = 400
 WINDOW_HEIGHT = 300
 FPS = 60
+ICON_ADDRESS = "assets/icon/icon.png"
 
 # COLORS
 BASE_BG_COLOR = (16, 16, 16)
@@ -14,6 +15,8 @@ pg.init()
 
 root = pg.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pg.display.set_caption(WINDOW_CAPTION)
+pg_icon = pg.image.load(ICON_ADDRESS)
+pg.display.set_icon(pg_icon)
 
 root.fill(BASE_BG_COLOR)
 pg.display.flip()
