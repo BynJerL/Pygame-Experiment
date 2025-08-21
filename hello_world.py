@@ -58,21 +58,21 @@ class Player:
 
         if dx == 0 and dy == 0:
             self.direction = None
-        elif dx == 1 and dy == 0:
+        elif dx > 0 and dy == 0:
             self.direction = "E"
-        elif dx == 1 and dy == 1:
+        elif dx > 0 and dy > 0:
             self.direction = "SE"
-        elif dx == 0 and dy == 1:
+        elif dx == 0 and dy > 0:
             self.direction = "S"
-        elif dx == -1 and dy == 1:
+        elif dx < 0 and dy > 0:
             self.direction = "SW"
-        elif dx == -1 and dy == 0:
+        elif dx < 0 and dy == 0:
             self.direction = "W"
-        elif dx == -1 and dy == -1:
+        elif dx < 0 and dy < 0:
             self.direction = "NW"
-        elif dx == 0 and dy == -1:
+        elif dx == 0 and dy < 0:
             self.direction = "N"
-        elif dx == 1 and dy == -1:
+        elif dx > 0 and dy < 0:
             self.direction = "NE"
 
     def idling(self):
@@ -189,8 +189,8 @@ while isRunning:
     if keys[pg.K_RIGHT]:
         player.moveRight()
     
-    player.getDirection()
     follower.update(player)
+    player.getDirection()
 
     if player.direction == None:
         player.isMoving = False
