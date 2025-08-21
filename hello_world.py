@@ -6,9 +6,11 @@ class Player:
         self.height = height
         self.posX = 75 - width // 2
         self.posY = 75 - height // 2
+        self.lastX = self.posX
+        self.lastY = self.posY
 
         self.isMoving = False
-        self.moveDirection = None
+        self.direction = None
     
     def draw(self):
         leftLimit = WINDOW_WIDTH // 2 - 75
@@ -36,9 +38,36 @@ class Player:
         self.posY = min(150 - self.height, self.posY + 1)
         self.isMoving = True
     
+    def getLastCoor(self):
+        self.lastX = self.posX
+        self.lastY = self.posY
+
+    def getDirection(self):
+        dx = self.posX - self.lastX
+        dy = self.posY - self.lastY
+
+        if dx == 0 and dy == 0:
+            self.direction = None
+        elif dx == 1 and dy == 0:
+            self.direction = "E"
+        elif dx == 1 and dy == 1:
+            self.direction = "SE"
+        elif dx == 0 and dy == 1:
+            self.direction = "S"
+        elif dx == -1 and dy == 1:
+            self.direction = "SW"
+        elif dx == -1 and dy == 0:
+            self.direction = "W"
+        elif dx == -1 and dy == -1:
+            self.direction = "NW"
+        elif dx == 0 and dy == -1:
+            self.direction = "N"
+        elif dx == 1 and dy == -1:
+            self.direction = "NE"
+
     def idling(self):
         self.isMoving = False
-        self.moveDirection = None
+        self.direction = None
 
 # SETUPS
 WINDOW_CAPTION = "Hello Pygame"
@@ -91,7 +120,7 @@ while isRunning:
         if event.type == pg.QUIT:
             isRunning = False
     
-    player.idling()
+    player.getLastCoor()
 
     keys = pg.key.get_pressed()
     if keys[pg.K_UP]:
@@ -102,8 +131,14 @@ while isRunning:
         player.moveLeft()
     if keys[pg.K_RIGHT]:
         player.moveRight()
+    
+    player.getDirection()
 
-    root.blit(subText.render(f"is_moving: {player.isMoving}  ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 40))
+    if player.direction == None:
+        player.isMoving = False
+
+    root.blit(subText.render(f"is_moving: {player.isMoving}  ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 54))
+    root.blit(subText.render(f"dir: {player.direction}   ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 40))
     root.blit(subText.render(f"coor: (x={player.posX},y={player.posY})      ", True, BASE_TEXT_COLOR, BASE_BG_COLOR), (5, WINDOW_HEIGHT - 28))
     
     root.fill(BASE_BG_COLOR, arena)
