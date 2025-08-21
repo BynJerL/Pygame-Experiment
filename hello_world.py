@@ -12,6 +12,15 @@ class Player:
         self.isMoving = False
         self.direction = None
     
+    def getSprite(self):
+        leftLimit = WINDOW_WIDTH // 2 - 75
+        rightLimit = WINDOW_WIDTH // 2 + 75 - self.width
+        topLimit = 115
+        bottomLimit = topLimit + 150 - self.height
+        absX = min(rightLimit, max(leftLimit, self.posX + leftLimit))
+        absY = min(bottomLimit, max(topLimit, self.posY + topLimit))
+        return pg.Rect(int(absX), int(absY), self.width, self.height)
+
     def draw(self):
         leftLimit = WINDOW_WIDTH // 2 - 75
         rightLimit = WINDOW_WIDTH // 2 + 75
@@ -19,7 +28,7 @@ class Player:
         bottomLimit = 265
         absX = min(rightLimit, max(leftLimit, self.posX + leftLimit))
         absY = min(bottomLimit, max(topLimit, self.posY + topLimit))
-        sprite = pg.Rect(absX, absY, self.width, self.height)
+        sprite = pg.Rect(int(absX), int(absY), self.width, self.height)
         pg.draw.rect(root, (240, 0, 0), sprite)
     
     def moveLeft(self):
@@ -69,6 +78,52 @@ class Player:
         self.isMoving = False
         self.direction = None
 
+class Follower:
+    def __init__(self, width: int = 15, height: int = 15, speed: float = 1.0):
+        self.width = width
+        self.height = height
+        self.speed = speed
+        self.posX = 10
+        self.posY = 10
+    
+    def _arenaLimits(self):
+        return (WINDOW_WIDTH // 2 - 75, 115) # (x, y)
+    
+    def getSprite(self):
+        leftLimit, topLimit = self._arenaLimits()
+        rightLimit, bottomLimit = (leftLimit + 150 - self.width, topLimit + 150 - self.height)
+        absX = min(rightLimit, max(leftLimit, leftLimit + self.posX))
+        absY = min(bottomLimit, max(topLimit, topLimit + self.posY))
+        return pg.Rect(int(absX), int(absY), self.width, self.height)
+    
+    def update(self, player: "Player"):
+        if self.getSprite().colliderect(player.getSprite()):
+            return
+        
+        tX = player.posX + player.width // 2
+        tY = player.posY + player.height // 2
+        rX = self.posX + self.width // 2
+        rY = self.posY + self.height // 2
+
+        dx = tX - rX
+        dy = tY - rY
+        drSq = dx ** 2 + dy ** 2
+        if drSq == 0:
+            return
+        
+        dr = drSq ** 0.5
+        stepX = (dx / dr) * self.speed
+        stepY = (dy / dr) * self.speed
+
+        self.posX += stepX
+        self.posY += stepY
+
+        self.posX = min(150 - self.width, max(0, self.posX))
+        self.posY = min(150 - self.height, max(0, self.posX))
+    
+    def draw(self):
+        pg.draw.rect(root, (240, 240, 0), self.getSprite())
+
 # SETUPS
 WINDOW_CAPTION = "Hello Pygame"
 WINDOW_WIDTH = 400
@@ -94,6 +149,7 @@ clock = pg.time.Clock()
 
 # OBJECT DRAW
 player = Player()
+follower = Follower()
 arena = pg.Rect(WINDOW_WIDTH // 2 - 75, 115, 150, 150)
 pg.draw.rect(root, (240, 0, 0), pg.Rect(30, 30, 30, 30))
 pg.draw.rect(root, BASE_TEXT_COLOR, arena, 3)
@@ -133,6 +189,7 @@ while isRunning:
         player.moveRight()
     
     player.getDirection()
+    follower.update(player)
 
     if player.direction == None:
         player.isMoving = False
@@ -143,6 +200,7 @@ while isRunning:
     
     root.fill(BASE_BG_COLOR, arena)
     pg.draw.rect(root, BASE_TEXT_COLOR, arena, 3)
+    follower.draw()
     player.draw()
 
     clock.tick(FPS)
