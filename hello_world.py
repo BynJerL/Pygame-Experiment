@@ -6,6 +6,9 @@ class Player:
         self.height = height
         self.posX = 75 - width // 2
         self.posY = 75 - height // 2
+
+        self.isMoving = False
+        self.moveDirection = None
     
     def draw(self):
         leftLimit = WINDOW_WIDTH // 2 - 75
@@ -19,15 +22,23 @@ class Player:
     
     def moveLeft(self):
         self.posX = max(0, self.posX - 1)
+        self.isMoving = True
     
     def moveRight(self):
         self.posX = min(150 - self.width, self.posX + 1)
+        self.isMoving = True
     
     def moveTop(self):
         self.posY = max(0, self.posY - 1)
+        self.isMoving = True
     
     def moveBottom(self):
         self.posY = min(150 - self.height, self.posY + 1)
+        self.isMoving = True
+    
+    def idling(self):
+        self.isMoving = False
+        self.moveDirection = None
 
 # SETUPS
 WINDOW_CAPTION = "Hello Pygame"
@@ -80,6 +91,8 @@ while isRunning:
         if event.type == pg.QUIT:
             isRunning = False
     
+    player.idling()
+
     keys = pg.key.get_pressed()
     if keys[pg.K_UP]:
         player.moveTop()
@@ -90,7 +103,8 @@ while isRunning:
     if keys[pg.K_RIGHT]:
         player.moveRight()
 
-    root.blit(subText.render(f"player: (x={player.posX},y={player.posY})      ", True, BASE_TEXT_COLOR, BASE_BG_COLOR), (5, WINDOW_HEIGHT - 28))
+    root.blit(subText.render(f"is_moving: {player.isMoving}  ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 40))
+    root.blit(subText.render(f"coor: (x={player.posX},y={player.posY})      ", True, BASE_TEXT_COLOR, BASE_BG_COLOR), (5, WINDOW_HEIGHT - 28))
     
     root.fill(BASE_BG_COLOR, arena)
     pg.draw.rect(root, BASE_TEXT_COLOR, arena, 3)
