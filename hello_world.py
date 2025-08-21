@@ -75,6 +75,9 @@ class Player:
         elif dx > 0 and dy < 0:
             self.direction = "NE"
 
+    def isCollide(self, collider: "Follower"):
+        return self.getSprite().colliderect(collider.getSprite())
+
     def idling(self):
         self.isMoving = False
         self.direction = None
@@ -195,6 +198,9 @@ while isRunning:
     if player.direction == None:
         player.isMoving = False
 
+    isCollide = player.isCollide(follower)
+
+    root.blit(subText.render(f"touching: {isCollide}  ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 68))
     root.blit(subText.render(f"is_moving: {player.isMoving}  ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 54))
     root.blit(subText.render(f"dir: {player.direction}   ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 40))
     root.blit(subText.render(f"coor: (x={player.posX},y={player.posY})      ", True, BASE_TEXT_COLOR, BASE_BG_COLOR), (5, WINDOW_HEIGHT - 28))
