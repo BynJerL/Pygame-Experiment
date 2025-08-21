@@ -1,13 +1,14 @@
 import pygame as pg
 
 class Player:
-    def __init__(self, width: int = 20, height:int = 20):
+    def __init__(self, width: int = 20, height:int = 20, speed = 1.5):
         self.width = width
         self.height = height
         self.posX = 75 - width // 2
         self.posY = 75 - height // 2
         self.lastX = self.posX
         self.lastY = self.posY
+        self.speed = speed
 
         self.isMoving = False
         self.direction = None
@@ -32,19 +33,19 @@ class Player:
         pg.draw.rect(root, (240, 0, 0), sprite)
     
     def moveLeft(self):
-        self.posX = max(0, self.posX - 1)
+        self.posX = max(0, self.posX - self.speed)
         self.isMoving = True
     
     def moveRight(self):
-        self.posX = min(150 - self.width, self.posX + 1)
+        self.posX = min(150 - self.width, self.posX + self.speed)
         self.isMoving = True
     
     def moveTop(self):
-        self.posY = max(0, self.posY - 1)
+        self.posY = max(0, self.posY - self.speed)
         self.isMoving = True
     
     def moveBottom(self):
-        self.posY = min(150 - self.height, self.posY + 1)
+        self.posY = min(150 - self.height, self.posY + self.speed)
         self.isMoving = True
     
     def getLastCoor(self):
@@ -119,7 +120,7 @@ class Follower:
         self.posY += stepY
 
         self.posX = min(150 - self.width, max(0, self.posX))
-        self.posY = min(150 - self.height, max(0, self.posX))
+        self.posY = min(150 - self.height, max(0, self.posY))
     
     def draw(self):
         pg.draw.rect(root, (240, 240, 0), self.getSprite())
