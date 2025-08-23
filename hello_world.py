@@ -89,6 +89,7 @@ class Follower:
         self.speed = speed
         self.posX = 10
         self.posY = 10
+        self.stepOp = "trig"
     
     def _arenaLimits(self):
         return (WINDOW_WIDTH // 2 - 75, 115) # (x, y)
@@ -116,8 +117,16 @@ class Follower:
             return
         
         dr = drSq ** 0.5
-        stepX = (dx / dr) * self.speed
-        stepY = (dy / dr) * self.speed
+        match (self.stepOp):
+            case "trig":
+                stepX = (dx / dr) * self.speed
+                stepY = (dy / dr) * self.speed
+            case "round":
+                stepX = round(dx / dr) * self.speed
+                stepY = round(dy / dr) * self.speed
+            case _:
+                stepX = (dx / dr) * self.speed
+                stepY = (dy / dr) * self.speed
 
         self.posX += stepX
         self.posY += stepY
@@ -179,6 +188,11 @@ while isRunning:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             isRunning = False
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_r:
+                follower.stepOp = "round"
+            if event.key == pg.K_t:
+                follower.stepOp = "trig"
     
     player.getLastCoor()
 
@@ -200,6 +214,7 @@ while isRunning:
 
     isCollide = player.isCollide(follower)
 
+    root.blit(subText.render(f"chase: {follower.stepOp}  ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 82))
     root.blit(subText.render(f"touching: {isCollide}  ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 68))
     root.blit(subText.render(f"is_moving: {player.isMoving}  ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 54))
     root.blit(subText.render(f"dir: {player.direction}   ", True, BASE_TEXT_COLOR, BASE_BG_COLOR),  (5, WINDOW_HEIGHT - 40))
